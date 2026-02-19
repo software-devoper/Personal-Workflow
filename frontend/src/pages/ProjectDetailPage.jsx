@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import RippleButton from "../components/RippleButton";
 import { projects } from "../data/projects";
@@ -7,7 +7,11 @@ import { projects } from "../data/projects";
 export default function ProjectDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [showVideo, setShowVideo] = useState(false);
   const project = useMemo(() => projects.find((item) => item.id === id), [id]);
+  const hasVideo = project?.video && project.video !== "#";
+  const isMp4Video = hasVideo && project.video.toLowerCase().endsWith(".mp4");
+  const isYouTubeEmbed = hasVideo && project.video.includes("youtube.com/embed/");
 
   if (!project) {
     return (
@@ -27,13 +31,43 @@ export default function ProjectDetailPage() {
           <RippleButton onClick={() => window.open(project.live, "_blank")} className="w-full sm:w-auto">
             Live
           </RippleButton>
-          <RippleButton
-            onClick={() => window.open(project.video, "_blank")}
-            className="w-full border-mint/40 text-mint sm:w-auto"
-          >
-            Video
-          </RippleButton>
+          {hasVideo ? (
+            <RippleButton
+              onClick={() => setShowVideo((prev) => !prev)}
+              className="w-full border-mint/40 text-mint sm:w-auto"
+            >
+              {showVideo ? "Close Video" : "Video"}
+            </RippleButton>
+          ) : null}
         </div>
+        {showVideo && isMp4Video ? (
+          <div className="mt-8 overflow-hidden rounded-2xl border border-cyan-300/25 bg-slate-950/70 p-2">
+            <video src={project.video} controls className="h-auto w-full rounded-xl" preload="metadata" />
+          </div>
+        ) : null}
+        {showVideo && isYouTubeEmbed ? (
+          <div className="mt-8 overflow-hidden rounded-2xl border border-cyan-300/25 bg-slate-950/70 p-2">
+            <iframe
+              src={project.video}
+              title={`${project.title} video`}
+              className="h-[220px] w-full rounded-xl sm:h-[360px]"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+        ) : null}
+        {showVideo && !isMp4Video && !isYouTubeEmbed && hasVideo ? (
+          <div className="mt-8">
+            <a
+              href={project.video}
+              target="_blank"
+              rel="noreferrer"
+              className="text-cyan-200 underline underline-offset-4"
+            >
+              Open Video Link
+            </a>
+          </div>
+        ) : null}
         <div className="mt-8">
           <RippleButton onClick={() => navigate("/projects")} className="w-full sm:w-auto">
             All Projects
