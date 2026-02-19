@@ -1,74 +1,40 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Line, OrbitControls } from "@react-three/drei";
-import { useMemo, useRef } from "react";
-import * as THREE from "three";
+import { Edges, OrbitControls } from "@react-three/drei";
+import { useRef } from "react";
 
-function NeuralMesh() {
+function HolographicCube() {
   const groupRef = useRef();
-  const points = useMemo(() => {
-    const p = [];
-    for (let i = 0; i < 50; i += 1) {
-      const phi = Math.acos(2 * Math.random() - 1);
-      const theta = 2 * Math.PI * Math.random();
-      const radius = 1.8 + Math.random() * 0.2;
-      p.push(
-        new THREE.Vector3(
-          radius * Math.sin(phi) * Math.cos(theta),
-          radius * Math.cos(phi),
-          radius * Math.sin(phi) * Math.sin(theta)
-        )
-      );
-    }
-    return p;
-  }, []);
-
-  const edges = useMemo(() => {
-    const lineSet = [];
-    for (let i = 0; i < points.length; i += 1) {
-      for (let j = i + 1; j < points.length; j += 1) {
-        if (points[i].distanceTo(points[j]) < 1.25) {
-          lineSet.push([points[i], points[j]]);
-        }
-      }
-    }
-    return lineSet;
-  }, [points]);
 
   useFrame((state) => {
     const { pointer } = state;
-    groupRef.current.rotation.y += 0.0025;
-    groupRef.current.rotation.x = pointer.y * 0.3;
+    groupRef.current.rotation.y += 0.008;
+    groupRef.current.rotation.x = pointer.y * 0.28 + 0.2;
     groupRef.current.rotation.z = pointer.x * 0.2;
   });
 
   return (
-    <group ref={groupRef}>
-      <points>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={points.length}
-            itemSize={3}
-            array={new Float32Array(points.flatMap((p) => [p.x, p.y, p.z]))}
-          />
-        </bufferGeometry>
-        <pointsMaterial color="#67e8f9" size={0.05} sizeAttenuation transparent opacity={0.9} />
-      </points>
-
-      {edges.map((edge, index) => (
-        <Line key={index} points={edge} color="#22d3ee" lineWidth={0.6} transparent opacity={0.35} />
-      ))}
+    <group ref={groupRef} scale={1.2}>
+      <mesh>
+        <boxGeometry args={[1.8, 1.8, 1.8]} />
+        <meshStandardMaterial color="#22d3ee" transparent opacity={0.08} emissive="#22d3ee" emissiveIntensity={0.55} />
+        <Edges threshold={15} color="#67e8f9" />
+      </mesh>
+      <mesh scale={1.23}>
+        <boxGeometry args={[1.8, 1.8, 1.8]} />
+        <meshBasicMaterial color="#22d3ee" wireframe transparent opacity={0.28} />
+      </mesh>
     </group>
   );
 }
 
 export default function NeuralSphere() {
   return (
-    <div className="h-[350px] w-full rounded-2xl border border-cyan-300/25 bg-slate-900/50 shadow-neon sm:h-[420px]">
-      <Canvas camera={{ position: [0, 0, 5], fov: 55 }}>
-        <ambientLight intensity={0.7} />
-        <pointLight position={[3, 3, 4]} intensity={1.2} color="#22d3ee" />
-        <NeuralMesh />
+    <div className="relative h-[280px] w-full sm:h-[340px] lg:h-[380px]">
+      <Canvas camera={{ position: [0, 0, 5.6], fov: 50 }}>
+        <ambientLight intensity={0.65} />
+        <pointLight position={[3, 3, 4]} intensity={1.35} color="#22d3ee" />
+        <pointLight position={[-3, -2, -2]} intensity={0.7} color="#0ea5e9" />
+        <HolographicCube />
         <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.8} />
       </Canvas>
     </div>
