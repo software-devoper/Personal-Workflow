@@ -105,7 +105,7 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28">
-      <section id="home" className="grid min-h-[85vh] items-center gap-8 lg:grid-cols-2">
+      <section id="home" className="grid min-h-[90vh] items-center gap-8 lg:grid-cols-2">
         <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
           <p className="text-base text-cyan-200 sm:text-lg">Hello, It&apos;s Me</p>
           <h1 className="mt-2 text-4xl font-bold leading-tight sm:text-6xl">Subhadip Mondal</h1>
@@ -139,9 +139,11 @@ export default function HomePage() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="relative"
+          className="relative flex w-full justify-end lg:pr-2"
         >
-          <NeuralSphere />
+          <div className="w-full max-w-[680px]">
+            <NeuralSphere />
+          </div>
         </motion.div>
       </section>
 
