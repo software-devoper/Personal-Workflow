@@ -6,6 +6,7 @@ import NeuralSphere from "../components/NeuralSphere";
 import ProjectCard from "../components/ProjectCard";
 import RippleButton from "../components/RippleButton";
 import { projects } from "../data/projects";
+import { trackEvent } from "../services/analytics";
 
 const skillGroups = [
   {
@@ -96,6 +97,7 @@ export default function HomePage() {
 
       setContactForm({ name: "", email: "", message: "" });
       setContactStatus({ type: "success", text: "Message sent successfully." });
+      trackEvent("contact_submit", { page_path: "/" });
     } catch (error) {
       setContactStatus({ type: "error", text: error.message });
     } finally {
@@ -129,9 +131,13 @@ export default function HomePage() {
           </div>
 
           <div className="mt-6 sm:mt-8">
-            <RippleButton onClick={() => window.open("#", "_blank")} className="w-full sm:w-auto">
+            <a
+              href="/Subhadip-Mondal-cv%20(1).pdf"
+              download="Subhadip-Mondal-Resume.pdf"
+              className="inline-block w-full rounded-xl border border-cyan-300/35 bg-cyan-400/10 px-6 py-3 text-center font-medium text-cyan-200 transition hover:-translate-y-1 hover:bg-cyan-300/15 hover:shadow-neon sm:w-auto"
+            >
               Download Resume
-            </RippleButton>
+            </a>
           </div>
         </motion.div>
 
