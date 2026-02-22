@@ -1,11 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import SpiderWebBackground from "./components/SpiderWebBackground";
+import AdminAnalyticsPage from "./pages/AdminAnalyticsPage";
 import AiPage from "./pages/AiPage";
 import AllProjectsPage from "./pages/AllProjectsPage";
 import HomePage from "./pages/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
+import { trackEvent } from "./services/analytics";
 
 function PageTransition({ children }) {
   return (
@@ -22,6 +25,10 @@ function PageTransition({ children }) {
 
 export default function App() {
   const location = useLocation();
+
+  useEffect(() => {
+    trackEvent("page_view", { page_path: location.pathname });
+  }, [location.pathname]);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden text-slate-100">
@@ -58,6 +65,14 @@ export default function App() {
             element={
               <PageTransition>
                 <ProjectDetailPage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <PageTransition>
+                <AdminAnalyticsPage />
               </PageTransition>
             }
           />
