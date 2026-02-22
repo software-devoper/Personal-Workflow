@@ -1,5 +1,14 @@
 export const projects = [
   {
+  title: "Pulse-Music-App",
+  shortDescription: "A modern music streaming web application powered by YouTube API and Jamendo API.",
+  description:
+    "Pulse Music App is a dynamic and responsive music streaming platform that integrates the YouTube API and Jamendo API to deliver a rich audio experience. Users can search for songs, stream music in real time, and explore trending or independent tracks seamlessly. The application features smooth playback controls, interactive UI animations, and optimized API handling for fast performance. By combining external music APIs with a modern frontend architecture, this project demonstrates strong skills in API integration, asynchronous data handling, and responsive UI design.",
+  tech: ["React", "JavaScript", "YouTube API", "Jamendo API", "Responsive Design"],
+    live: "https://pulse-music-phiq.onrender.com",
+    video: "#"
+  },
+  {
     id: "pdf",
     title: "AI-PDF-Workflow",
     shortDescription: "An AI-powered PDF generation system for automated document creation and workflow optimization.",
