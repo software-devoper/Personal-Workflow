@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { supabase } from "../services/supabaseClient.js";
+import { sendContactAutoReply, sendContactNotification } from "../services/emailService.js";
 
 const router = Router();
 
@@ -38,7 +39,37 @@ router.post("/", async (req, res) => {
       throw new Error(`Failed to save contact message: ${error.message}`);
     }
 
-    return res.status(201).json({ success: true });
+    let notification = { sent: false };
+    let autoReply = { sent: false };
+
+    try {
+      notification = await sendContactNotification({
+        name: normalizedName,
+        email: normalizedEmail,
+        message: normalizedMessage
+      });
+    } catch (mailError) {
+      notification = { sent: false, error: mailError.message };
+    }
+
+    try {
+      autoReply = await sendContactAutoReply({
+        name: normalizedName,
+        email: normalizedEmail
+      });
+    } catch (mailError) {
+      autoReply = { sent: false, error: mailError.message };
+    }
+
+    return res.status(201).json({
+      success: true,
+      email: {
+        notification_sent: Boolean(notification.sent),
+        notification_reason: notification.reason || notification.error || "",
+        auto_reply_sent: Boolean(autoReply.sent),
+        auto_reply_reason: autoReply.reason || autoReply.error || ""
+      }
+    });
   } catch (error) {
     return res.status(500).json({
       error: "Unable to submit contact form.",
