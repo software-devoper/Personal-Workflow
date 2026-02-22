@@ -1,4 +1,4 @@
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "https://pulse-music-phiq.onrender.com/api";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "https://pulse-music-phiq.onrender.com";
 const VISITOR_KEY = "portfolio_visitor_id";
 const SESSION_KEY = "session_id";
 
