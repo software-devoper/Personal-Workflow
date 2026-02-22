@@ -9,7 +9,7 @@ import analyticsRoute from "./routes/analytics.js";
 
 const app = express();
 const port = Number(process.env.PORT || 5000);
-const frontendOrigin = process.env.FRONTEND_ORIGIN || "http://localhost:5173";
+const frontendOrigin = process.env.FRONTEND_ORIGIN || "https://personal-workflow.onrender.com";
 const allowedOrigins = frontendOrigin
   .split(",")
   .map((origin) => origin.trim())
