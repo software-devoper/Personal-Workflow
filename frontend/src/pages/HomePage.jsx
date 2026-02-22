@@ -219,7 +219,7 @@ export default function HomePage() {
         <div className="mt-6 flex flex-col gap-3 text-slate-200">
           <p className="flex items-center gap-2 break-all">
             <FaEnvelope className="text-cyan-200" />
-            Subhadipmondal0101@gmail.com
+            subhadipmondal0101@gmail.com
           </p>
           <p className="flex items-center gap-2">
             <FaPhone className="text-cyan-200" />
