@@ -1,5 +1,6 @@
 export const projects = [
   {
+    id: "music",
   title: "Pulse-Music-App",
   shortDescription: "A modern music streaming web application powered by YouTube API and Jamendo API.",
   description:
