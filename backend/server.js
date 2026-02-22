@@ -5,6 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import chatRoute from "./routes/chat.js";
 import contactRoute from "./routes/contact.js";
+import analyticsRoute from "./routes/analytics.js";
 
 const app = express();
 const port = Number(process.env.PORT || 5000);
@@ -14,12 +15,27 @@ const allowedOrigins = frontendOrigin
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+function normalizeOrigin(origin) {
+  const value = String(origin || "").trim();
+  if (!value) return "";
+  try {
+    const parsed = new URL(value);
+    const portPart = parsed.port ? `:${parsed.port}` : "";
+    return `${parsed.protocol}//${parsed.hostname}${portPart}`.toLowerCase();
+  } catch {
+    return value.replace(/\/+$/, "").toLowerCase();
+  }
+}
+
+const normalizedAllowedOrigins = allowedOrigins.map(normalizeOrigin);
+
 app.use(
   cors({
     origin(origin, callback) {
       if (!origin) return callback(null, true);
 
-      const isConfiguredOrigin = allowedOrigins.includes(origin);
+      const incoming = normalizeOrigin(origin);
+      const isConfiguredOrigin = normalizedAllowedOrigins.includes(incoming);
       const isLocalhost = /^http:\/\/localhost:\d+$/.test(origin) || /^http:\/\/127\.0\.0\.1:\d+$/.test(origin);
 
       if (isConfiguredOrigin || isLocalhost) {
@@ -40,6 +56,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/chat", chatRoute);
 app.use("/api/contact", contactRoute);
+app.use("/api/analytics", analyticsRoute);
 
 app.use((_req, res) => {
   res.status(404).json({ error: "Not found" });
