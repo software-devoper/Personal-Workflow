@@ -62,7 +62,7 @@ export const projects = [
     video: "#"
   },
     {
-    id: "document",
+    id: "prompt",
     title: "AI-Prompt-Generator",
     shortDescription: "An intelligent prompt engineering tool built with Python, LangChain, and Streamlit.",
     description:
@@ -72,7 +72,7 @@ export const projects = [
     video: "#"
   },
     {
-    id: "document",
+    id: "invoice",
     title: "AI Invoice Automation",
     shortDescription: "A full-stack application that automates invoice generation and sends invoices to customers using Excel or CSV data.",
     description:
