@@ -70,5 +70,15 @@ export const projects = [
     tech: ["Python", "LangChain", "Streamlit", "LLM Integration"],
     live: "https://prompt-creaft.onrender.com",
     video: "#"
+  },
+    {
+    id: "document",
+    title: "AI Invoice Automation",
+    shortDescription: "A full-stack application that automates invoice generation and sends invoices to customers using Excel or CSV data.",
+    description:
+    "AI Invoice Automation is a full-stack web application designed to streamline the billing process by automating invoice distribution. The system allows users to upload customer data through Excel or CSV files containing details such as customer name, email address, and billing information. After processing the uploaded file, the application automatically generates personalized invoices and sends them to each customer via email. The platform also stores customer and invoice records in a database for easy tracking and management. Built using React, TypeScript, Tailwind CSS, Node.js, Express, and MongoDB Atlas, this project demonstrates real-world implementation of data processing, backend automation, and scalable email-based invoice delivery.",
+    tech: ["React", "Tailwind CSS", "TypeScript", "Node.js", "Express.js", "MongoDB Atlas"],
+    live: "https://invoice-ai-y4nj.onrender.com/",
+    video: "#"
   }
 ];
